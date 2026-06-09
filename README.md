@@ -73,6 +73,29 @@ lib/
 
 ---
 
+
+## 📸 Screenshots
+
+### Login Screen
+
+![img_1.png](img_1.png)
+
+### Register Screen
+
+![img_2.png](img_2.png)
+
+### Home Screen
+
+![img_4.png](img_4.png)
+
+### Add Alarm Screen
+
+![img_6.png](img_6.png)
+
+### Edit Alarm Screen
+
+![img_5.png](img_5.png)
+
 ## ⚙️ Core Platform Configurations (Android)
 
 Wakeflow is pre-configured with critical native settings to ensure alarms are scheduled precisely and trigger reliably:
