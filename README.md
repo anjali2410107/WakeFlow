@@ -142,6 +142,6 @@ And the background broadcast receivers required by `flutter_local_notifications`
 
 ---
 
-## 📝 License
+## 📝 Author
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+Anjali Agarwal
