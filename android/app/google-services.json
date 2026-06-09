@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "121096434805",
+    "project_id": "wakeflow-5b260",
+    "storage_bucket": "wakeflow-5b260.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121096434805:android:0bd2f39e511fafbf39743c",
+        "android_client_info": {
+          "package_name": "com.example.wakeflow"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA6N3nvJ781EbMrIjlA_Y_P86mD4fIbUEU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
