@@ -42,11 +42,22 @@ class DatabaseService {
   Stream<List<Alarm>> getAlarmsStream(String uid) {
     final controller = StreamController<List<Alarm>>.broadcast();
 
+    // 1. Emit initially cached alarms
     getCachedAlarms(uid).then((cached) {
       if (!controller.isClosed) {
         controller.add(cached);
       }
     });
+
+    // 2. Always listen to local changes for instant/offline updates
+    final localSubscription = _localChangeStreamController.stream.listen((_) async {
+      final cached = await getCachedAlarms(uid);
+      if (!controller.isClosed) {
+        controller.add(cached);
+      }
+    });
+
+    StreamSubscription? remoteSubscription;
 
     if (FirebaseService.isInitialized) {
       _syncPendingOperations(uid);
@@ -57,7 +68,7 @@ class DatabaseService {
           .collection('alarms')
           .snapshots();
 
-      final subscription = firestoreStream.listen((snapshot) {
+      remoteSubscription = firestoreStream.listen((snapshot) {
         final alarms = snapshot.docs.map((doc) {
           final data = doc.data();
           data['id'] = doc.id;
@@ -74,24 +85,13 @@ class DatabaseService {
       }, onError: (error) {
         debugPrint("Firestore stream error: $error");
       });
-
-      controller.onCancel = () {
-        subscription.cancel();
-        controller.close();
-      };
-    } else {
-      final localSubscription = _localChangeStreamController.stream.listen((_) async {
-        final cached = await getCachedAlarms(uid);
-        if (!controller.isClosed) {
-          controller.add(cached);
-        }
-      });
-
-      controller.onCancel = () {
-        localSubscription.cancel();
-        controller.close();
-      };
     }
+
+    controller.onCancel = () {
+      localSubscription.cancel();
+      remoteSubscription?.cancel();
+      controller.close();
+    };
 
     return controller.stream;
   }

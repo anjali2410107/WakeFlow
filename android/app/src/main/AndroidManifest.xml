@@ -39,7 +39,8 @@
             android:name="flutterEmbedding"
             android:value="2" />
 
-        <!-- Receiver to restore scheduled alarms on device reboot -->
+        <!-- Receivers for scheduling and triggering notifications/alarms -->
+        <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationReceiver" android:exported="false" />
         <receiver android:name="com.dexterous.flutterlocalnotifications.ScheduledNotificationBootReceiver" android:exported="false">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED"/>

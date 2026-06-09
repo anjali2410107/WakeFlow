@@ -43,7 +43,6 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
     try {
       await _databaseService.saveAlarm(event.uid, event.alarm);
       await NotificationService.scheduleAlarm(event.alarm);
-      emit(AlarmOperationSuccess());
     } catch (e) {
       emit(AlarmOperationFailure("Failed to add alarm: $e"));
     }
@@ -53,7 +52,6 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
     try {
       await _databaseService.saveAlarm(event.uid, event.alarm);
       await NotificationService.scheduleAlarm(event.alarm);
-      emit(AlarmOperationSuccess());
     } catch (e) {
       emit(AlarmOperationFailure("Failed to update alarm: $e"));
     }
@@ -63,7 +61,6 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
     try {
       await _databaseService.deleteAlarm(event.uid, event.alarm.id);
       await NotificationService.cancelAlarm(event.alarm);
-      emit(AlarmOperationSuccess());
     } catch (e) {
       emit(AlarmOperationFailure("Failed to delete alarm: $e"));
     }
@@ -74,7 +71,6 @@ class AlarmBloc extends Bloc<AlarmEvent, AlarmState> {
       final updatedAlarm = event.alarm.copyWith(isEnabled: !event.alarm.isEnabled);
       await _databaseService.saveAlarm(event.uid, updatedAlarm);
       await NotificationService.scheduleAlarm(updatedAlarm);
-      emit(AlarmOperationSuccess());
     } catch (e) {
       emit(AlarmOperationFailure("Failed to toggle alarm: $e"));
     }

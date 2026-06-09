@@ -1,3 +1,4 @@
+import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_timezone/flutter_timezone.dart';
@@ -74,10 +75,15 @@ class NotificationService {
       return;
     }
 
+    debugPrint("NotificationService: Scheduling alarm '${alarm.label}' at ${alarm.time} (Hour: ${alarm.hour}, Minute: ${alarm.minute})");
+    debugPrint("NotificationService: Current timezone database location is: ${tz.local}");
+    debugPrint("NotificationService: Current time in timezone database is: ${tz.TZDateTime.now(tz.local)}");
+    debugPrint("NotificationService: Current local system time is: ${DateTime.now()}");
+
     final int baseId = alarm.id.hashCode & 0x7FFFFFFF;
 
     final AndroidNotificationDetails androidDetails = AndroidNotificationDetails(
-      'alarm_channel_id',
+      'alarm_channel_v4',
       'Wakeflow Alarms',
       channelDescription: 'Channel for wakeflow active alarms',
       importance: Importance.max,
@@ -86,6 +92,7 @@ class NotificationService {
       playSound: true,
       audioAttributesUsage: AudioAttributesUsage.alarm,
       category: AndroidNotificationCategory.alarm,
+      additionalFlags: Int32List.fromList(<int>[4]), // Insistent (loops sound until dismissed)
       vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
       enableVibration: true,
     );

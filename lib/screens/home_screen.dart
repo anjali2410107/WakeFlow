@@ -84,7 +84,19 @@ class _HomeScreenState extends State<HomeScreen> {
       final minutes = difference.inMinutes % 60;
       
       final formattedTime = DateFormat('hh:mm a').format(soonestAlarmTime);
-      final dayLabel = soonestAlarmTime.day == now.day ? 'today' : 'tomorrow';
+      
+      final alarmDateOnly = DateTime(soonestAlarmTime.year, soonestAlarmTime.month, soonestAlarmTime.day);
+      final nowDateOnly = DateTime(now.year, now.month, now.day);
+      final dayDifference = alarmDateOnly.difference(nowDateOnly).inDays;
+
+      String dayLabel;
+      if (dayDifference == 0) {
+        dayLabel = 'today';
+      } else if (dayDifference == 1) {
+        dayLabel = 'tomorrow';
+      } else {
+        dayLabel = 'on ${DateFormat('EEEE').format(soonestAlarmTime)}';
+      }
 
       if (hours == 0) {
         return "Next alarm: $dayLabel at $formattedTime (in $minutes minutes)";
